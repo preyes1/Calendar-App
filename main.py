@@ -29,14 +29,14 @@ city = ['Toronto', 'New York City', 'Los Angeles', 'Chicago', 'Ottawa', "Vancouv
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'hard to guess string' 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123@localhost/calendardb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password123@localhost/calendardb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
 #user authentication stuff
 login_manager = LoginManager()
-login_manager.login_view = "login"
+login_manager.login_view = "index"
 login_manager.init_app(app)
 
 @login_manager.user_loader
@@ -46,13 +46,13 @@ def load_user(id):
 #default route redirects user to login page
 @app.route('/')
 def index():
-    return redirect('login')
+    return render_template('about.html')
 
 #can use current_user.id to get the current user
 @app.route('/calendar')
 @login_required
 def calendar():
-    cnx = mysql.connector.connect(user='root', password='123', database='calendardb')
+    cnx = mysql.connector.connect(user='root', password='password123', database='calendardb')
     cur = cnx.cursor()
     cur.execute(f"SELECT * FROM events WHERE user_id = '{current_user.id}'")
     events = cur.fetchall()
@@ -79,7 +79,7 @@ def add(start):
 @login_required
 def home():
     form = TaskAddForm(request.form)
-    cnx = mysql.connector.connect(user='root', password='123', database='calendardb')
+    cnx = mysql.connector.connect(user='root', password='password123', database='calendardb')
     cur = cnx.cursor()
     cur.execute(f"SELECT * FROM user WHERE username = '{current_user.username}'")
     user = cur.fetchone()
@@ -125,7 +125,7 @@ def login():
     if request.method == "POST":
         username = form.username.data
         pwd = form.password.data
-        cnx = mysql.connector.connect(user='root', password='123', database='calendardb')
+        cnx = mysql.connector.connect(user='root', password='password123', database='calendardb')
         cur = cnx.cursor()
         cur.execute(f"SELECT username, password FROM user WHERE username = '{username}'")
         user = cur.fetchone() #create something that happens if user inputs invalid details
