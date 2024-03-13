@@ -2,6 +2,16 @@
 {% block title %}Register{% endblock %}
 
 {% block page_content%}
+<style>
+    /* Change the color of the input text */
+    input{
+        color: black; 
+    }
+    /* Change color of City input so its not white */
+    select{
+        color: black;
+    }
+</style>
     <div>
         <h1>Create an Account</h1>
         <form method=post>
@@ -22,7 +32,8 @@
             <br>
             {{form.city.label}}
             {{form.city()}}
-        <button type="submit">REGISTER</button>
+            <br>
+        <button type="submit" class="btn btn-success">REGISTER</button>
         </form>
     </div>
     <h5><a href="/login">Login</a></h5>

@@ -1,6 +1,12 @@
 {% extends "main.html" %}
 {% block title %}Login{% endblock %}
 {% block page_content%}
+<style>
+    /* Change the color of the input text */
+    input{
+        color: black; 
+    }
+</style>
     <div>
         <h1>Login</h1>
         <form method=post>
@@ -10,7 +16,7 @@
             {{form.password.label}}
             {{form.password()}}
             <br>
-            <button type="submit">LOGIN</button>
+            <button type="submit" class="btn btn-success">LOGIN</button>
         </form>
     </div>
     <h5><a href="/register">Create an Account</a></h5>

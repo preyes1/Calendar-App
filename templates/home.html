@@ -17,14 +17,14 @@
             {% for task in tasks %}
             <tr>
                 <td class="tasks"><h1>{{task.2}}</h1></td>
-                <td><a href="/deletetask/{{task.0}}">Delete</a></td>
+                <td><a href="/deletetask/{{task.0}}" type="button" class="btn btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
             <tr>
                 <td>
                     <form method="post" class="new-task">
                         {{form.task(class="task-input")}}
-                        <button type="submit" class="new-task-button">New Task</button>
+                        <button type="submit" type="button" class="btn btn-success">New Task</button>
                     </form>
                 </td>
             </tr>
