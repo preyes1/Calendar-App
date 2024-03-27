@@ -156,17 +156,27 @@ def register():
     if request.method == "POST":
         email_exists = User.query.filter_by(email=form.email.data).first()
         username_exists = User.query.filter_by(username=form.username.data).first()
+        id_exists = User.query.filter_by(id='1').first()
 
         #if the email and username are unique
         if not email_exists:
             if not username_exists:
-                user = User(username = form.username.data, password = generate_password_hash(form.password.data, method='pbkdf2:sha256'), email = form.email.data,
-                            fname = form.fname.data, lname = form.lname.data, city = form.city.data)
-                db.session.add(user)
-                db.session.commit()
-                #logs in the user so they don't have to input their info again to log in
-                login_user(user, remember=True)
-                return redirect(url_for('home', username = form.username.data))
+                if not id_exists:
+                    user = User(username = form.username.data, password = generate_password_hash(form.password.data, method='pbkdf2:sha256'), email = form.email.data,
+                                fname = form.fname.data, lname = form.lname.data, city = form.city.data, role = "ADMIN")
+                    db.session.add(user)
+                    db.session.commit()
+                    #logs in the user so they don't have to input their info again to log in
+                    login_user(user, remember=True)
+                    return redirect(url_for('home', username = form.username.data))
+                else:
+                    user = User(username = form.username.data, password = generate_password_hash(form.password.data, method='pbkdf2:sha256'), email = form.email.data,
+                                fname = form.fname.data, lname = form.lname.data, city = form.city.data, role = "REGULAR")
+                    db.session.add(user)
+                    db.session.commit()
+                    #logs in the user so they don't have to input their info again to log in
+                    login_user(user, remember=True)
+                    return redirect(url_for('home', username = form.username.data))
         
     return render_template("register.html", form=form)
 
@@ -185,6 +195,7 @@ class User(db.Model, UserMixin):
     fname = db.Column(db.String(64))
     lname = db.Column(db.String(64))
     city = db.Column(db.String(64))
+    role = db.Column(db.String(64))
 
     tasks = db.relationship("Tasks", backref='user')
     events = db.relationship("Events", backref='user')
